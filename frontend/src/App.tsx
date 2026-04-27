@@ -41,6 +41,7 @@ const AppContent = () => {
         <Route path="/chief-warden" element={<ChiefWardenPanel />} />
         {/* <Route path="/student" element={<StudentDashboard />} />
         <Route path="/supervisor" element={<SupervisorPanel />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
 
       {/* Hide Footer on dashboard pages */}

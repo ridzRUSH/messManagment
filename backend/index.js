@@ -1,80 +1,70 @@
 import express from "express";
 import mysql from "mysql2/promise";
+import  sqlInit  from "./db/db.init.js";
+import userRoutes from "./routes/user.route.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // --------------------
 // DB CONNECTION (POOL)
 // --------------------
-const pool = mysql.createPool({
+export const pool = mysql.createPool({
   host: process.env.DB_HOST || "db",   // Docker service name
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "root",
-  database: process.env.DB_NAME || "app_db",
+  database: process.env.DB_NAME || "mess_management",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  multipleStatements: true, // Allow multiple statements for initialization
 });
 
 // Retry DB connection (important for Docker startup timing)
-async function connectDB() {
-  while (true) {
-    try {
-      const conn = await pool.getConnection();
-      console.log("✅ MySQL connected");
-      conn.release();
-      break;
-    } catch (err) {
-      console.log("⏳ Waiting for DB...");
-      await new Promise(res => setTimeout(res, 2000));
+    async function connectDB() {
+      while (true) {
+        try {
+          const conn = await pool.getConnection();
+          console.log("✅ MySQL connected");
+
+          const [rows] = await conn.query(`
+            SELECT SCHEMA_NAME 
+            FROM INFORMATION_SCHEMA.SCHEMATA 
+            WHERE SCHEMA_NAME = 'mess_management'
+          `);
+
+          if (rows.length === 0) {
+            await conn.query(sqlInit);
+            console.log("Fresh DB initialized");
+          } else {
+            await conn.query('USE mess_management');
+            console.log("DB already exists, skipping init " + rows[0].SCHEMA_NAME);
+          }
+          conn.release();
+          break;
+        } catch (err) {
+          console.log("⏳ Waiting for DB..." + err.message);
+          await new Promise(res => setTimeout(res, 2000));
+        }
+      }
     }
-  }
-}
 
 // --------------------
 // ROUTES
 // --------------------
 
-// Health check
-app.get("/", (req, res) => {
-  res.send("API is running 🚀");
-});
+app.use("/api/users", userRoutes);
 
-// Example route: get users
-app.get("/users", async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT * FROM users");
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
-
-// Example route: create user
-app.post("/users", async (req, res) => {
-  try {
-    const { name, email } = req.body;
-
-    const [result] = await pool.query(
-      "INSERT INTO users (name, email) VALUES (?, ?)",
-      [name, email]
-    );
-
-    res.status(201).json({
-      id: result.insertId,
-      name,
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Insert failed" });
-  }
-});
 
 // --------------------
 // GLOBAL ERROR HANDLER
