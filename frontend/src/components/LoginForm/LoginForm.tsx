@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import "./LoginForm.css";
 import { AuthContext } from "../../contextAPI/AuthContext";
+import { sendOtp, verifyOtp } from "../../api/auth";
 
 const LoginForm = () => {
   const auth = useContext(AuthContext);
@@ -8,6 +9,30 @@ const LoginForm = () => {
   if (!auth) return null;
 
   const { email, setEmail, otp, setOtp } = auth;
+
+  // 👉 Send OTP
+  const handleSendOtp = async () => {
+    try {
+      const res = await sendOtp(email, "user");
+      console.log("OTP sent:", res.data);
+      alert("OTP sent successfully");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to send OTP");
+    }
+  };
+
+  // 👉 Verify OTP
+  const handleVerifyOtp = async () => {
+    try {
+      const res = await verifyOtp(email, otp);
+      console.log("Verified:", res.data);
+      alert("Login successful");
+    } catch (err) {
+      console.log(err);
+      alert("Invalid OTP");
+    }
+  };
 
   return (
     <div className="login-card">
@@ -22,23 +47,28 @@ const LoginForm = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <button className="primary-btn">Send OTP →</button>
+      {/* ✅ SEND OTP BUTTON CONNECTED */}
+      <button className="primary-btn" onClick={handleSendOtp}>
+        Send OTP →
+      </button>
 
       <div className="divider">VERIFICATION</div>
 
-      <label>Enter 6-digit Code</label>
       <label htmlFor="otp">Enter 6-digit Code</label>
 
-        <input
+      <input
         id="otp"
         type="text"
         maxLength={6}
         placeholder="Enter OTP"
         value={otp}
         onChange={(e) => setOtp(e.target.value)}
-        />
+      />
 
-      <button className="primary-btn">Verify & Continue</button>
+      {/* ✅ VERIFY OTP BUTTON CONNECTED */}
+      <button className="primary-btn" onClick={handleVerifyOtp}>
+        Verify & Continue
+      </button>
 
       <p className="resend">⟳ Resend OTP</p>
     </div>

@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import ChiefWardenPanel from "./pages/ChiefWardenPanel/ChiefWardenPanel";
-//import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 //import SupervisorPanel from "./pages/SupervisorPanel/SupervisorPanel";
 
 import Navbar from "./components/Navbar/Navbar";
