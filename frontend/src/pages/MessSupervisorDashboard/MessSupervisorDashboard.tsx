@@ -32,22 +32,37 @@ const MessSupervisorDashboard = () => {
     fetchMessSupervisorData();
   }, []);
 
-  const fetchMessSupervisorData = async () => {
-    try {
-      setLoading(true);
-      const [itemsRes, consumptionRes] = await Promise.all([
-        getRationItems(Number(user?.hostel_id)), 
-        getMonthlyConsumption(Number(user?.hostel_id) , new Date().getFullYear() , new Date().getMonth() + 1)
-      ]);
+ const fetchMessSupervisorData = async () => {
+  try {
+    setLoading(true);
+    const [itemsRes, consumptionRes] = await Promise.all([
+      getRationItems(Number(user?.hostel_id)),
+      getMonthlyConsumption(Number(user?.hostel_id), new Date().getFullYear(), new Date().getMonth() + 1)
+    ]);
 
-      setRationItems(itemsRes.data || []);
-      setMonthlyConsumption(consumptionRes.data || []);
-    } catch (error) {
-      console.error("Error fetching mess supervisor data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ Extract array from { success, data }
+    const itemsArray = itemsRes?.data?.data ?? [];
+    const consumptionArray = consumptionRes?.data?.data ?? [];
+
+    // Optional: if your API sometimes returns array directly (fallback)
+    const finalItems = Array.isArray(itemsArray) ? itemsArray :
+                       Array.isArray(itemsRes?.data) ? itemsRes.data :
+                       Array.isArray(itemsRes) ? itemsRes : [];
+    
+    const finalConsumption = Array.isArray(consumptionArray) ? consumptionArray :
+                             Array.isArray(consumptionRes?.data) ? consumptionRes.data :
+                             Array.isArray(consumptionRes) ? consumptionRes : [];
+
+    setRationItems(finalItems);
+    setMonthlyConsumption(finalConsumption);
+  } catch (error) {
+    console.error("Error fetching mess supervisor data:", error);
+    setRationItems([]);
+    setMonthlyConsumption([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   console.log("Ration Items:", rationItems);
   console.log("Monthly Consumption:", monthlyConsumption);
@@ -57,10 +72,10 @@ const MessSupervisorDashboard = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await updateRationItem(editingId, itemFormData);
+        await updateRationItem(editingId, {...itemFormData , hostel_id: Number(user?.hostel_id)});
         setEditingId(null);
       } else {
-        await addRationItem(itemFormData);
+        await addRationItem({...itemFormData , hostel_id: Number(user?.hostel_id)});
       }
       setItemFormData({
         name: "",
@@ -89,7 +104,7 @@ const MessSupervisorDashboard = () => {
   const handleDeleteItem = async (id: number) => {
     if (confirm("Are you sure you want to delete this item?")) {
       try {
-        await deleteRationItem(id);
+        await deleteRationItem( id ,Number(user?.hostel_id));
         fetchMessSupervisorData();
       } catch (error) {
         console.error("Error deleting ration item:", error);
@@ -124,7 +139,7 @@ const MessSupervisorDashboard = () => {
         <div className="stats-container">
             <StatsCard title="Total Ration Items" value={String(rationItems.length)} />
             <StatsCard title="Total Monthly Consumption" value={totalConsumption.toFixed(2)} />
-            <StatsCard title="Inventory Value" value={`$${totalItemCost.toFixed(2)}`} />
+            <StatsCard title="Inventory Value" value={`$${rationItems.reduce((sum, item) => sum + (Number(item.unit_cost) || 0), 0).toFixed(2)}`} />
         </div>
 
         {/* RATION ITEMS MANAGEMENT */}
@@ -219,7 +234,7 @@ const MessSupervisorDashboard = () => {
                     <tr key={item.id}>
                       <td>{item.name}</td>
                       <td>{item.unit}</td>
-                      <td>${item.unit_cost?.toFixed(2) || 0}</td>
+                      <td>${item.unit_cost || 0}</td>
                       <td>{item.supplier_id}</td>
                       <td>
                         <button
@@ -230,7 +245,7 @@ const MessSupervisorDashboard = () => {
                         </button>
                         <button
                           className="btn-delete"
-                          onClick={() => handleDeleteItem(item.id)}
+                          onClick={() => handleDeleteItem(item.ration_item_id)}
                         >
                           Delete
                         </button>
@@ -286,12 +301,12 @@ const MessSupervisorDashboard = () => {
             </div>
             <div className="inventory-stat">
               <span>Total Value</span>
-              <strong>${totalItemCost.toFixed(2)}</strong>
+              <strong>${rationItems.reduce((sum, item) => sum + (Number(item.unit_cost) || 0), 0).toFixed(2)}</strong>
             </div>
             <div className="inventory-stat">
               <span>Avg Item Cost</span>
               <strong>
-                ${(totalItemCost / (rationItems.length || 1)).toFixed(2)}
+                ${(rationItems.reduce((sum, item) => sum + (Number(item.unit_cost) || 0), 0) / (rationItems.length || 1)).toFixed(2)}
               </strong>
             </div>
             <div className="inventory-stat">

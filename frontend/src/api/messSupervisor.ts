@@ -25,8 +25,8 @@ export const updateRationItem = (
   }
 ) => axiosInstance.post(`/mess-supervisor/update-ration-item/${id}`, data);
 
-export const deleteRationItem = (id: number, hostel_id: number) =>
-  axiosInstance.delete(`/mess-supervisor/delete-ration-item/${id}`, {
+export const deleteRationItem = (item_id: number, hostel_id: number) =>
+  axiosInstance.delete(`/mess-supervisor/delete-ration-item/${item_id}`, {
     data: { hostel_id }
   });
 

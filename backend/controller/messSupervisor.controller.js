@@ -155,11 +155,13 @@ export async function updateRationItem(req, res) {
  * DELETE /api/mess-supervisor/delete-ration-item/:id
  */
 export async function deleteRationItem(req, res) {
-  const connection = await pool.getConnection(); // for transaction
+  const connection = await pool.getConnection(); 
 
   try {
     const ration_item_id = parseInt(req.params.id, 10);
     const { hostel_id } = req.body;
+
+    console.log(ration_item_id, hostel_id);
 
     if (!ration_item_id || !hostel_id) {
       return res.status(400).json({
@@ -181,7 +183,7 @@ export async function deleteRationItem(req, res) {
       });
     }
 
-    // 🔥 START TRANSACTION
+ 
     await connection.beginTransaction();
 
     // Step 1: delete child records
@@ -196,7 +198,7 @@ export async function deleteRationItem(req, res) {
       [ration_item_id, hostel_id]
     );
 
-    // ✅ COMMIT
+  
     await connection.commit();
 
     return res.status(200).json({
@@ -205,7 +207,7 @@ export async function deleteRationItem(req, res) {
     });
 
   } catch (err) {
-    // ❌ ROLLBACK if error
+   
     await connection.rollback();
 
     console.error("Error deleting ration item:", err);
@@ -215,7 +217,7 @@ export async function deleteRationItem(req, res) {
     });
 
   } finally {
-    connection.release(); // VERY IMPORTANT
+    connection.release(); 
   }
 }
 

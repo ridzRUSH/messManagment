@@ -93,10 +93,10 @@ const LoginForm = () => {
         localStorage.setItem("token", res.data.token);
       }
 
-      alert("Login successful");
+      showToast("Login successful.", "success");
     } catch (err: unknown) {
       console.error(err);
-      alert(getErrorMessage(err, "Invalid OTP"));
+      showToast(getErrorMessage(err, "OTP verification failed. Please try again."), "error");
     }
   };
 
