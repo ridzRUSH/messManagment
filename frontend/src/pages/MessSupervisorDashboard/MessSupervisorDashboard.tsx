@@ -9,6 +9,7 @@ import {
   deleteRationItem,
   getMonthlyConsumption
 } from "../../api/messSupervisor";
+import { useAuth } from "../../contextAPI/AuthContext";
 
 const MessSupervisorDashboard = () => {
   const [rationItems, setRationItems] = useState<any[]>([]);
@@ -16,6 +17,9 @@ const MessSupervisorDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showAddItem, setShowAddItem] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+
+   const { user } = useAuth(); 
+  console.log("Auth context in MessSupervisorDashboard:",  user );
 
   const [itemFormData, setItemFormData] = useState({
     name: "",
@@ -32,8 +36,8 @@ const MessSupervisorDashboard = () => {
     try {
       setLoading(true);
       const [itemsRes, consumptionRes] = await Promise.all([
-        getRationItems(),
-        getMonthlyConsumption()
+        getRationItems(Number(user?.hostel_id)), 
+        getMonthlyConsumption(Number(user?.hostel_id) , new Date().getFullYear() , new Date().getMonth() + 1)
       ]);
 
       setRationItems(itemsRes.data || []);
@@ -44,6 +48,10 @@ const MessSupervisorDashboard = () => {
       setLoading(false);
     }
   };
+
+  console.log("Ration Items:", rationItems);
+  console.log("Monthly Consumption:", monthlyConsumption);
+  
 
   const handleAddItem = async (e: React.FormEvent) => {
     e.preventDefault();

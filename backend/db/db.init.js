@@ -22,11 +22,7 @@
         hostel_id INT,
         name VARCHAR(100),
         role VARCHAR(50),
-<<<<<<< Updated upstream
-        email VARCHAR(100) UNIQUE,
-=======
-        email VARCHAR(100) ,
->>>>>>> Stashed changes
+        email VARCHAR(100) ,    
         FOREIGN KEY (hostel_id) REFERENCES hostel(hostel_id)
     );
 

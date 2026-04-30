@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 <<<<<<< Updated upstream
@@ -95,7 +95,7 @@ const LoginForm = () => {
       const response = await verifyOtp(otp, tempToken, role ?? "STUDENT");
       const { token, role: verifiedRole, user } = response.data;
 
-      console.log()
+      console.log(user);
 
       await login({ token, role: verifiedRole, user });
       showToast("Login successful.", "success");
