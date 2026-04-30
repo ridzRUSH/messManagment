@@ -27,6 +27,8 @@ const WardenDashboard = () => {
     fetchWardenData();
   }, []);
 
+  console.log(messSummary , activeCards , staff )
+
   const fetchWardenData = async () => {
     try {
       setLoading(true);
@@ -36,9 +38,9 @@ const WardenDashboard = () => {
         getAllStaff()
       ]);
 
-      setMessSummary(summaryRes.data);
-      setActiveCards(cardsRes.data);
-      setStaff(staffRes.data);
+      setMessSummary(summaryRes.data.summary);
+      setActiveCards(cardsRes.data.cards);
+      setStaff(staffRes.data.staff);
     } catch (error) {
       console.error("Error fetching warden data:", error);
     } finally {
@@ -156,7 +158,9 @@ const WardenDashboard = () => {
           )}
 
           <div className="staff-list">
-            {staff.length === 0 ? (
+
+           
+            { staff.length === 0 ? (
               <p>No staff members added yet.</p>
             ) : (
               staff.map((member: any) => (
@@ -168,7 +172,7 @@ const WardenDashboard = () => {
                   </div>
                   <button
                     className="btn-danger"
-                    onClick={() => handleRemoveStaff(member.id)}
+                    onClick={() => handleRemoveStaff(member.staff_id)}
                   >
                     Remove
                   </button>

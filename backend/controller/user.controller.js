@@ -15,7 +15,8 @@ async function findUserByRole(email, role) {
       return {
         user: rows[0],
         role: "STUDENT",
-        id: rows[0].student_id
+        id: rows[0].student_id, 
+        hostel_id: rows[0].hostel_id
       };
     }
   } else {
@@ -24,7 +25,8 @@ async function findUserByRole(email, role) {
       return {
         user: rows[0],
         role: rows[0].role,
-        id: rows[0].staff_id
+        id: rows[0].staff_id,
+        hostel_id: rows[0].hostel_id
       };
     }
   }
@@ -84,10 +86,10 @@ async function verifyOtpEndpoint(req, res) {
       });
     }
 
-    const { user, id } = result;
+    const { user, id, hostel_id } = result;
 
     const authToken = jwt.sign(
-      { id, email: user.email, role },
+      { id, email: user.email, role, hostel_id },
       AUTH_SECRET,
       { expiresIn: "1d" }
     );
@@ -103,6 +105,7 @@ async function verifyOtpEndpoint(req, res) {
       message: "Login successful",
       token: authToken,
       role,
+      hostel_id,
       user
     });
 

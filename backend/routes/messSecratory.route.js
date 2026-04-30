@@ -73,7 +73,7 @@ router.post(
 router.get(
   "/special-meal",
   authMiddleware,
-  allowRoles(["MESS_SECRETARY", "STUDENT"]),
+  allowRoles("MESS_SECRETARY", "STUDENT"),
   messController.getSpecialMeals
 );
 
@@ -113,7 +113,7 @@ router.post(
 router.get(
   "/get-weekly-expense",
   authMiddleware,
-  allowRoles(["MESS_SECRETARY", "STUDENT"]),
+  allowRoles("MESS_SECRETARY", "STUDENT"),
   messController.getWeeklyExpense
 );
 

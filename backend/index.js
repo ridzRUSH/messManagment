@@ -88,9 +88,12 @@ async function connectDB() {
 app.use("/api/users", userRoutes);
 app.use("/api/warden", wardenRoutes);
 app.use("/api/mess", messRoutes);
-app.use("/api/caretaker", careTakerRoutes); 
-app.use("/api/mess-secretary", messSecretaryRoutes); 
-app.use("/api/supervisor", supervisorRoutes);  
+app.use("/api/caretaker", careTakerRoutes);
+app.use("/api/mess-secretary", messSecretaryRoutes);
+app.use("/api/mess-supervisor", supervisorRoutes); 
+
+
+
 // --------------------
 // ERROR HANDLER
 // --------------------

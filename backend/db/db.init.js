@@ -114,38 +114,51 @@
         FOREIGN KEY (student_id) REFERENCES student(student_id)
     );
 
-    CREATE TABLE IF NOT EXISTS menu (
-        menu_id INT AUTO_INCREMENT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS supplier (
+        supplier_id INT AUTO_INCREMENT PRIMARY KEY,
         hostel_id INT,
-        date DATE,
-        day_of_week VARCHAR(20),
-        meal_type VARCHAR(20),
-        items TEXT,
+        name VARCHAR(100),
+        contact_info VARCHAR(255),
         FOREIGN KEY (hostel_id) REFERENCES hostel(hostel_id)
     );
 
+    CREATE TABLE IF NOT EXISTS ration_item (
+        ration_item_id INT AUTO_INCREMENT PRIMARY KEY,
+        hostel_id INT,
+        name VARCHAR(100),
+        unit VARCHAR(20),  -- KG, LITRE, PIECE, etc.
+        unit_cost DECIMAL(10,2),
+        supplier_id INT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (hostel_id) REFERENCES hostel(hostel_id),
+        FOREIGN KEY (supplier_id) REFERENCES supplier(supplier_id)
+    );
 
+    CREATE TABLE IF NOT EXISTS ration_consumption (
+        consumption_id INT AUTO_INCREMENT PRIMARY KEY,
+        ration_item_id INT,
+        hostel_id INT,
+        date DATE,
+        quantity DECIMAL(10,2),
+        cost DECIMAL(10,2),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (ration_item_id) REFERENCES ration_item(ration_item_id),
+        FOREIGN KEY (hostel_id) REFERENCES hostel(hostel_id)
+    );
 
-CREATE TABLE IF NOT EXISTS otp (
-    otp_id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100),
-    otp_code VARCHAR(10),
-    expires_at DATETIME,
-    is_verified BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    -- Insert sample suppliers
+    INSERT IGNORE INTO supplier (supplier_id, hostel_id, name, contact_info) VALUES
+    (1, 1, 'Local Grocery Store', 'Phone: 9876543210'),
+    (2, 1, 'Fresh Vegetables Supplier', 'Phone: 9876543211'),
+    (3, 1, 'Rice & Grains Depot', 'Phone: 9876543212');
 
-
-CREATE TABLE IF NOT EXISTS mess_email_config (
-    config_id INT AUTO_INCREMENT PRIMARY KEY,
-    hostel_id INT,
-    email VARCHAR(100),
-    password VARCHAR(255),
-    smtp_host VARCHAR(100),
-    smtp_port INT,
-    is_active BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (hostel_id) REFERENCES hostel(hostel_id)
-);
+    -- Insert sample ration items
+    INSERT IGNORE INTO ration_item (ration_item_id, hostel_id, name, unit, unit_cost, supplier_id) VALUES
+    (1, 1, 'Rice', 'KG', 50.00, 3),
+    (2, 1, 'Dal', 'KG', 120.00, 1),
+    (3, 1, 'Vegetables', 'KG', 40.00, 2),
+    (4, 1, 'Cooking Oil', 'LITRE', 150.00, 1),
+    (5, 1, 'Spices', 'PACKET', 25.00, 1);
 `;
 
 export default sqlInit;

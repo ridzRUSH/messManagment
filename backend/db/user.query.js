@@ -62,11 +62,14 @@ const queries = {
   `,
 
   getMessSummaryByHostel: `
-    SELECT
-      (SELECT COUNT(*) FROM student WHERE hostel_id = ?) AS total_students,
-      (SELECT COUNT(*) FROM mess_card mc JOIN student s ON mc.student_id = s.student_id WHERE mc.status = 'ACTIVE' AND s.hostel_id = ?) AS active_cards,
-      (SELECT COUNT(*) FROM mess_card mc JOIN student s ON mc.student_id = s.student_id WHERE mc.status = 'CLOSED' AND s.hostel_id = ?) AS closed_cards,
-      (SELECT COUNT(*) FROM mess_card mc JOIN student s ON mc.student_id = s.student_id WHERE s.hostel_id = ?) AS total_cards
+   SELECT
+  COUNT(DISTINCT s.student_id) AS total_students,
+  COUNT(CASE WHEN mc.close_date IS NULL THEN 1 END) AS active_cards,
+  COUNT(CASE WHEN mc.close_date IS NOT NULL THEN 1 END) AS closed_cards,
+  COUNT(mc.card_id) AS total_cards
+FROM student s
+LEFT JOIN mess_card mc ON s.student_id = mc.student_id
+WHERE s.hostel_id = ?;
   `,
 
   updateMessEmailConfig: `
