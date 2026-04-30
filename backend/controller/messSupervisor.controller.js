@@ -150,7 +150,13 @@ export async function updateRationItem(req, res) {
  * Delete a ration item
  * DELETE /api/mess-supervisor/delete-ration-item/:id
  */
+/**
+ * Delete a ration item
+ * DELETE /api/mess-supervisor/delete-ration-item/:id
+ */
 export async function deleteRationItem(req, res) {
+  const connection = await pool.getConnection(); // for transaction
+
   try {
     const ration_item_id = parseInt(req.params.id, 10);
     const { hostel_id } = req.body;
@@ -163,7 +169,11 @@ export async function deleteRationItem(req, res) {
     }
 
     // Check if item exists
-    const [existing] = await pool.query(queries.getRationItemById, [ration_item_id, hostel_id]);
+    const [existing] = await connection.query(
+      queries.getRationItemById,
+      [ration_item_id, hostel_id]
+    );
+
     if (existing.length === 0) {
       return res.status(404).json({
         success: false,
@@ -171,8 +181,23 @@ export async function deleteRationItem(req, res) {
       });
     }
 
-    // Delete item
-    await pool.query(queries.deleteRationItem, [ration_item_id, hostel_id]);
+    // 🔥 START TRANSACTION
+    await connection.beginTransaction();
+
+    // Step 1: delete child records
+    await connection.query(
+      "DELETE FROM ration_consumption WHERE ration_item_id = ?",
+      [ration_item_id]
+    );
+
+    // Step 2: delete parent record
+    await connection.query(
+      queries.deleteRationItem,
+      [ration_item_id, hostel_id]
+    );
+
+    // ✅ COMMIT
+    await connection.commit();
 
     return res.status(200).json({
       success: true,
@@ -180,13 +205,20 @@ export async function deleteRationItem(req, res) {
     });
 
   } catch (err) {
+    // ❌ ROLLBACK if error
+    await connection.rollback();
+
     console.error("Error deleting ration item:", err);
     return res.status(500).json({
       success: false,
       message: err.message || "Failed to delete ration item"
     });
+
+  } finally {
+    connection.release(); // VERY IMPORTANT
   }
 }
+
 
 // =========================================
 // MONTHLY CONSUMPTION REPORTS

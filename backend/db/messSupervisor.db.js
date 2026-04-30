@@ -29,10 +29,15 @@ const queries = {
     WHERE ration_item_id = ? AND hostel_id = ?;
   `,
 
-  deleteRationItem: `
-    DELETE FROM ration_item
-    WHERE ration_item_id = ? AND hostel_id = ?;
-  `,
+ deleteRationConsumption: `
+DELETE FROM ration_consumption 
+WHERE ration_item_id = ?;
+`,
+
+deleteRationItem: `
+DELETE FROM ration_item 
+WHERE ration_item_id = ? AND hostel_id = ?;
+`,
 
   // =========================================
   // MONTHLY CONSUMPTION REPORTS

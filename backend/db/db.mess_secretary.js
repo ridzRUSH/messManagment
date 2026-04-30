@@ -1,23 +1,29 @@
 ﻿const queries = {
   getActiveCardsByDate: `
-    SELECT 
-      COUNT(*) AS total_cards,
-      SUM(
-        CASE 
-          WHEN open_date <= ? 
-           AND (close_date IS NULL OR close_date >= ?) 
-          THEN 1 ELSE 0 
-        END
-      ) AS active_cards
-    FROM mess_card;
+  SELECT 
+  COUNT(DISTINCT student_id) AS total_cards,
+  COUNT(DISTINCT CASE 
+    WHEN open_date <= ? 
+     AND (close_date IS NULL OR close_date >= ?) 
+    THEN student_id
+  END) AS active_cards
+FROM mess_card;
   `,
 
   getNetCard: `
-    SELECT 
-      COUNT(*) AS total_cards,
-      SUM(close_date IS NULL) AS open_cards,
-      SUM(close_date IS NOT NULL) AS closed_cards
-    FROM mess_card;
+ SELECT 
+  COUNT(DISTINCT student_id) AS total_students,
+
+  COUNT(DISTINCT CASE 
+    WHEN close_date IS NULL THEN student_id 
+  END) AS open_students,
+
+  COUNT(DISTINCT student_id) 
+  - COUNT(DISTINCT CASE 
+      WHEN close_date IS NULL THEN student_id 
+    END) AS closed_students
+
+FROM mess_card;
   `,
 
   getRationSummary: `
