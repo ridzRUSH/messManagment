@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../contextAPI/AuthContext";
-import type { UserRole } from "../contextAPI/AuthContext";
+import { useAuth } from "../contextAPI/AuthContext.tsx";
+import type { UserRole } from "../contextAPI/AuthContext.tsx";
 
 interface ProtectedRouteProps {
   children: ReactElement;

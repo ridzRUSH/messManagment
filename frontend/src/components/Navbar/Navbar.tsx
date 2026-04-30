@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contextAPI/AuthContext";
+import { useAuth } from "../../contextAPI/AuthContext.tsx";
 import { useToast } from "../../contextAPI/ToastContext";
 
 import "./Navbar.css";

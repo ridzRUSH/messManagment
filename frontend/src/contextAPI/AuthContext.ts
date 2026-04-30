@@ -6,5 +6,5 @@ export const AuthContext = createContext<{
   otp: string;
   setOtp: (otp: string) => void;
   role: string;
-  setRole: (role: "STUDENT" | "WARDEN" | "MESS_SECRATERY" | "SUPERVISOR" ) => void;
+  setRole: (role: "STUDENT" | "WARDEN" | "MESS_SECRETARY" | "MESS_SUPERVISOR" | "CARE_TAKER") => void;
 } | null>(null);

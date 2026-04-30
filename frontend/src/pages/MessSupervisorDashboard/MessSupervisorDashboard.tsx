@@ -9,7 +9,7 @@ import {
   deleteRationItem,
   getMonthlyConsumption
 } from "../../api/messSupervisor";
-import { useAuth } from "../../contextAPI/AuthContext";
+import { useAuth } from "../../contextAPI/AuthContext.tsx";
 
 const MessSupervisorDashboard = () => {
   const [rationItems, setRationItems] = useState<any[]>([]);

@@ -8,6 +8,16 @@
 export type UserRole = "STUDENT" | "CARE_TAKER" | "MESS_SECRETARY" | "MESS_SUPERVISOR" | "WARDEN";
 export type StaffRole = "COOK" | "MESS_SECRETARY" | "CARE_TAKER" | "WARDEN" | "MESS_SUPERVISOR";
 
+export const ROLES = {
+  STUDENT: "STUDENT",
+  MESS_SECRETARY: "MESS_SECRETARY",
+  CARE_TAKER: "CARE_TAKER",
+  MESS_SUPERVISOR: "MESS_SUPERVISOR",
+  WARDEN: "WARDEN",
+} as const;
+
+export type Role = typeof ROLES[keyof typeof ROLES];
+
 export interface LoginRequest {
   email: string;
   role: UserRole;

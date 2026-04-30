@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
-
-export type UserRole = "STUDENT" | "MESS_SECRETARY" | "CARE_TAKER" | "MESS_SUPERVISOR" |"WARDEN"| null;
+import { ROLES } from "../api/types";
+export type UserRole = typeof ROLES[keyof typeof ROLES] | null;
 
 
 export interface AuthContextType {
