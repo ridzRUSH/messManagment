@@ -48,6 +48,8 @@ const LoginForm = () => {
       const response = await verifyOtp(otp, tempToken, role ?? "STUDENT");
       const { token, role: verifiedRole, user } = response.data;
 
+      console.log()
+
       await login({ token, role: verifiedRole, user });
       showToast("Login successful.", "success");
 

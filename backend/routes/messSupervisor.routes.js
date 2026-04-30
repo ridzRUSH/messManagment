@@ -21,7 +21,7 @@ const router = Router();
 
 router.post("/add-ration-item", authMiddleware, allowRoles("MESS_SUPERVISOR"), addRationItem);
 
-router.get("/get-ration-items", authMiddleware, allowRoles("MESS_SUPERVISOR", "STUDENT"), getRationItems);
+router.get("/get-ration-items", authMiddleware, allowRoles("MESS_SUPERVISOR", "MESS_SECRETARY"), getRationItems);
 
 router.patch("/update-ration-item/:id", authMiddleware, allowRoles("MESS_SUPERVISOR"), updateRationItem);
 
