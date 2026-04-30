@@ -2,18 +2,18 @@ import axiosInstance from "./axiosInstance";
 
 // ===== Active Cards =====
 export const getActiveCards = (date?: string) => {
-  return axiosInstance.get("/messSecretary/no-of-active-cards", {
+  return axiosInstance.get("/mess-secretary/no-of-active-cards", {
     params: { date }
   });
 };
 
 // ===== Net Card (Total/Open/Closed) =====
 export const getNetCard = () =>
-  axiosInstance.get("/messSecretary/net-card");
+  axiosInstance.get("/mess-secretary/net-card");
 
 // ===== Ration Management =====
 export const getRation = (month?: number, year?: number) => {
-  return axiosInstance.get("/messSecretary/ration", {
+  return axiosInstance.get("/mess-secretary/ration", {
     params: { month, year }
   });
 };
@@ -23,11 +23,11 @@ export const addRationConsumption = (data: {
   quantity: number;
   date: string;
   cost?: number;
-}) => axiosInstance.post("/messSecretary/ration-consumption", data);
+}) => axiosInstance.post("/mess-secretary/ration-consumption", data);
 
 // ===== Special Meal Management =====
 export const getSpecialMealSummary = () =>
-  axiosInstance.get("/messSecretary/special-meal-summary");
+  axiosInstance.get("/mess-secretary/special-meal-summary");
 
 export const createSpecialMeal = (data: {
   name: string;
@@ -35,14 +35,14 @@ export const createSpecialMeal = (data: {
   date: string;
   cost: number;
   max_students?: number;
-}) => axiosInstance.post("/messSecretary/special-meal-poll", data);
+}) => axiosInstance.post("/mess-secretary/special-meal-poll", data);
 
 export const getSpecialMeals = () =>
-  axiosInstance.get("/messSecretary/special-meal");
+  axiosInstance.get("/mess-secretary/special-meal");
 
 export const addSpecialMealStudent = (specialMealId: number, data: {
   student_id: number;
-}) => axiosInstance.post(`/messSecretary/add-special-meal/${specialMealId}`, data);
+}) => axiosInstance.post(`/mess-secretary/add-special-meal/${specialMealId}`, data);
 
 // ===== Weekly Expense =====
 export const addWeeklyExpense = (data: {
@@ -51,10 +51,10 @@ export const addWeeklyExpense = (data: {
   description: string;
   amount: number;
   category: string;
-}) => axiosInstance.post("/messSecretary/add-weekly-expense", data);
+}) => axiosInstance.post("/mess-secretary/add-weekly-expense", data);
 
 export const getWeeklyExpense = (month?: number, year?: number) => {
-  return axiosInstance.get("/messSecretary/get-weekly-expense", {
+  return axiosInstance.get("/mess-secretary/get-weekly-expense", {
     params: { month, year }
   });
 };

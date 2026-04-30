@@ -24,6 +24,8 @@ const MessSecretaryDashboard = () => {
   const [showAddRation, setShowAddRation] = useState(false);
   const [showAddSpecialMeal, setShowAddSpecialMeal] = useState(false);
   const [showAddExpense, setShowAddExpense] = useState(false);
+  
+ 
 
   const [rationFormData, setRationFormData] = useState({
     ration_item_id: 0,
@@ -31,6 +33,8 @@ const MessSecretaryDashboard = () => {
     date: new Date().toISOString().split("T")[0],
     cost: 0
   });
+
+
 
   const [specialMealFormData, setSpecialMealFormData] = useState({
     name: "",
@@ -186,46 +190,77 @@ const MessSecretaryDashboard = () => {
 
           {showAddRation && (
             <form className="form" onSubmit={handleAddRation}>
-              <input
-                type="number"
-                placeholder="Ration Item ID"
-                value={rationFormData.ration_item_id}
-                onChange={(e) =>
-                  setRationFormData({ ...rationFormData, ration_item_id: parseInt(e.target.value) })
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Quantity"
-                step="0.01"
-                value={rationFormData.quantity}
-                onChange={(e) =>
-                  setRationFormData({ ...rationFormData, quantity: parseFloat(e.target.value) })
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Cost"
-                step="0.01"
-                value={rationFormData.cost}
-                onChange={(e) =>
-                  setRationFormData({ ...rationFormData, cost: parseFloat(e.target.value) })
-                }
-              />
-              <input
-                type="date"
-                value={rationFormData.date}
-                onChange={(e) =>
-                  setRationFormData({ ...rationFormData, date: e.target.value })
-                }
-                required
-              />
-              <button type="submit" className="btn-primary">
-                Add Ration
-              </button>
-            </form>
+  
+
+  <div className="form-group">
+    <label>Ration ID</label>
+    <input
+      type="number"
+      placeholder="Ration id"
+      value={rationFormData.ration_item_id}
+      onChange={(e) =>
+        setRationFormData({
+          ...rationFormData,
+          ration_item_id: parseInt(e.target.value)
+        })
+      }
+      required
+    />
+  </div>
+
+  <div className="form-group">
+    <label>Quantity</label>
+    <input
+      type="number"
+      placeholder="quantity"
+      step="0.01"
+      value={rationFormData.quantity}
+      onChange={(e) =>
+        setRationFormData({
+          ...rationFormData,
+          quantity: parseFloat(e.target.value)
+        })
+      }
+      required
+    />
+  </div>
+
+  <div className="form-group">
+    <label>Cost</label>
+    <input
+      type="number"
+      placeholder="cost"
+      step="0.01"
+      value={rationFormData.cost}
+      onChange={(e) =>
+        setRationFormData({
+          ...rationFormData,
+          cost: parseFloat(e.target.value)
+        })
+      }
+    />
+  </div>
+
+  <div className="form-group">
+    <label>Date</label>
+    <input
+      type="date"
+      placeholder="date"
+      value={rationFormData.date}
+      onChange={(e) =>
+        setRationFormData({
+          ...rationFormData,
+          date: e.target.value
+        })
+      }
+      required
+    />
+  </div>
+
+  <button type="submit" className="btn-primary">
+    Add Ration
+  </button>
+</form>
           )}
 
           <div className="items-list">
@@ -278,6 +313,7 @@ const MessSecretaryDashboard = () => {
               />
               <input
                 type="date"
+                placeholder="date"
                 value={specialMealFormData.date}
                 onChange={(e) =>
                   setSpecialMealFormData({ ...specialMealFormData, date: e.target.value })
@@ -342,6 +378,7 @@ const MessSecretaryDashboard = () => {
             <form className="form" onSubmit={handleAddExpense}>
               <input
                 type="date"
+                placeholder="date"
                 value={expenseFormData.week_start_date}
                 onChange={(e) =>
                   setExpenseFormData({ ...expenseFormData, week_start_date: e.target.value })
@@ -350,6 +387,7 @@ const MessSecretaryDashboard = () => {
               />
               <input
                 type="date"
+                placeholder="date"
                 value={expenseFormData.week_end_date}
                 onChange={(e) =>
                   setExpenseFormData({ ...expenseFormData, week_end_date: e.target.value })
