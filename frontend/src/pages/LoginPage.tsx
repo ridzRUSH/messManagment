@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { Form, type FormFieldConfig } from '../components/Form'
 import { Card } from '../components/Card'
+import { ThemeToggle } from '../components/ThemeToggle'
 import { ErrorBanner } from '../components/ErrorBanner'
 import { postLoginPath } from '../routes/dashboardPaths'
 import { getErrorMessage } from '../utils/errors'
@@ -106,6 +107,7 @@ export function LoginPage() {
 
   return (
     <div className={styles.page}>
+      <ThemeToggle variant="onDark" className={styles.themeToggle} />
       <div className={styles.panel}>
         <h1 className={styles.heading}>Hostel mess</h1>
         <p className={styles.lead}>Sign in with your email and OTP.</p>

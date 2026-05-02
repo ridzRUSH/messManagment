@@ -24,7 +24,7 @@
 }
 
 .table tbody tr:hover {
-  background: #fafbfc;
+  background: var(--table-row-hover, #fafbfc);
 }
 
 .emptyTable {

@@ -36,6 +36,65 @@ body {
   --surface-2: #f1f5f9;
   --bg: #eef2f7;
   --accent: #1e5a8a;
+  --text-strong: #0f172a;
+  --brand: #0f2744;
+  --sidebar-bg: #0f2744;
+  --sidebar-text: #e8eef5;
+  --sidebar-muted: #cbd5e1;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.14);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+  --sidebar-divider: rgba(255, 255, 255, 0.12);
+  --badge-bg: #e0f2fe;
+  --badge-text: #075985;
+  --control-hover: #f8fafc;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --hero-gradient: linear-gradient(165deg, #0c2742 0%, #1a4d73 55%, #1e5a8a 100%);
+  --strip-gradient: linear-gradient(120deg, #0f2744 0%, #1e5a8a 100%);
+  --login-page-bg: linear-gradient(160deg, #0f2744 0%, #1e4a6e 45%, #eef2f7 45%);
+  --cta-on-hero-bg: #ffffff;
+  --cta-on-hero-text: #0f2744;
+  --table-row-hover: #fafbfc;
+  --error-bg: #fde8e8;
+  --error-text: #7a1212;
+  --error-border: #f0b4b4;
+  --spinner-track: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --text: #e8eef5;
+  --muted: #94a3b8;
+  --border: #334155;
+  --surface: #1e293b;
+  --surface-2: #0f172a;
+  --bg: #0f172a;
+  --accent: #5b9fd4;
+  --text-strong: #f1f5f9;
+  --brand: #cbd5e1;
+  --sidebar-bg: #0c1929;
+  --sidebar-text: #e8eef5;
+  --sidebar-muted: #94a3b8;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.12);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-divider: rgba(255, 255, 255, 0.1);
+  --badge-bg: #1e3a5f;
+  --badge-text: #7dd3fc;
+  --control-hover: #334155;
+  --nav-bg: rgba(15, 23, 42, 0.92);
+  --hero-gradient: linear-gradient(165deg, #050a12 0%, #0c2742 55%, #153a5c 100%);
+  --strip-gradient: linear-gradient(120deg, #0a1628 0%, #1e5a8a 100%);
+  --login-page-bg: linear-gradient(160deg, #050a12 0%, #1a3550 45%, #0f172a 45%);
+  --cta-on-hero-bg: #1e293b;
+  --cta-on-hero-text: #f1f5f9;
+  --table-row-hover: #253045;
+  --error-bg: #450a0a;
+  --error-text: #fecaca;
+  --error-border: #7f1d1d;
+  --spinner-track: rgba(255, 255, 255, 0.12);
 }
 
 a {

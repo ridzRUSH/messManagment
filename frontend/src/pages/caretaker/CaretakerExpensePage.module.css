@@ -34,5 +34,5 @@
 }
 
 .refresh:hover {
-  background: #f8fafc;
+  background: var(--control-hover, #f8fafc);
 }

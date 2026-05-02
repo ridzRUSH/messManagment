@@ -1,10 +1,17 @@
 .wrap {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
   background: var(--bg, #eef2f7);
+}
+
+.themeToggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .text {

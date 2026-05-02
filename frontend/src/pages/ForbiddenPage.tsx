@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { Card } from '../components/Card'
+import { ThemeToggle } from '../components/ThemeToggle'
 import styles from './ForbiddenPage.module.css'
 
 export function ForbiddenPage() {
   return (
     <div className={styles.wrap}>
+      <ThemeToggle className={styles.themeToggle} />
       <Card title="Access denied">
         <p className={styles.text}>
           You do not have permission to view this page (403).

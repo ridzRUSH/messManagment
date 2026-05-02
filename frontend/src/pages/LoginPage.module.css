@@ -1,10 +1,21 @@
 .page {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
-  background: linear-gradient(160deg, #0f2744 0%, #1e4a6e 45%, #eef2f7 45%);
+  background: var(
+    --login-page-bg,
+    linear-gradient(160deg, #0f2744 0%, #1e4a6e 45%, #eef2f7 45%)
+  );
+}
+
+.themeToggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
 }
 
 .panel {
@@ -47,6 +58,8 @@
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--border, #cbd5e1);
   border-radius: 8px;
+  background: var(--surface, #fff);
+  color: var(--text, #1a1f26);
 }
 
 .otpActions {

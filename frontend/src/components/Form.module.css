@@ -27,6 +27,7 @@
   border: 1px solid var(--border, #cbd5e1);
   border-radius: 8px;
   background: var(--surface, #fff);
+  color: var(--text, #1a1f26);
 }
 
 .textarea {

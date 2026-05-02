@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ThemeToggle } from '../components/ThemeToggle'
 import { useAuth } from '../context/AuthContext'
 import styles from './HomePage.module.css'
 
@@ -97,6 +98,7 @@ export function HomePage() {
       <header className={styles.nav}>
         <span className={styles.logo}>Mess Management</span>
         <div className={styles.navActions}>
+          <ThemeToggle />
           {isAuthenticated ? (
             <Link className={styles.navLink} to="/dashboard">
               Dashboard

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import type { UserRole } from '../api/types'
+import { ThemeToggle } from '../components/ThemeToggle'
 import styles from './DashboardLayout.module.css'
 
 const NAV: Record<
@@ -113,6 +114,7 @@ export function DashboardLayout() {
               <span className={styles.badge}>{roleLabel(role)}</span>
             ) : null}
           </div>
+          <ThemeToggle className={styles.themeToggle} />
           <button type="button" className={styles.logout} onClick={handleLogout}>
             Log out
           </button>
